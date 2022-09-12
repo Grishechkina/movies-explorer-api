@@ -92,7 +92,7 @@ module.exports.login = (req, res, next) => {
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
-          domain: 'paw.patrol.nomoredomains.sbs',
+          domain: 'film.o.search.nomoredomains.sbs',
           sameSite: 'None',
           secure: true,
         });
@@ -104,7 +104,7 @@ module.exports.login = (req, res, next) => {
 module.exports.signout = (req, res) => {
   res.clearCookie('jwt', {
     httpOnly: true,
-    domain: 'paw.patrol.nomoredomains.sbs',
+    domain: 'film.o.search.nomoredomains.sbs',
     sameSite: 'None',
     secure: true,
   });
