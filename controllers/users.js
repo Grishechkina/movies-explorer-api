@@ -5,7 +5,6 @@ const NotFoundError = require('../errors/not-found-err');
 const BadAuthError = require('../errors/bad-auth-err');
 const BadRequestError = require('../errors/bad-request-err');
 const ConflictError = require('../errors/conflict-err');
-require('dotenv').config();
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
@@ -17,10 +16,6 @@ module.exports.getCurrentUser = (req, res, next) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Несуществующий id'));
-        return;
-      }
       next(err);
     });
 };
@@ -92,7 +87,7 @@ module.exports.login = (req, res, next) => {
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
-          domain: 'film.o.search.nomoredomains.sbs',
+          domain: process.env.NODE_ENV === 'production' ? 'film.o.search.nomoredomains.sbs' : 'localhost:3000',
           sameSite: 'None',
           secure: true,
         });
@@ -104,7 +99,7 @@ module.exports.login = (req, res, next) => {
 module.exports.signout = (req, res) => {
   res.clearCookie('jwt', {
     httpOnly: true,
-    domain: 'film.o.search.nomoredomains.sbs',
+    domain: process.env.NODE_ENV === 'production' ? 'film.o.search.nomoredomains.sbs' : 'localhost:3000',
     sameSite: 'None',
     secure: true,
   });

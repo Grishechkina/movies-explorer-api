@@ -10,7 +10,6 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 module.exports.addMovie = (req, res, next) => {
-  // const { name, link } = req.body;
   const id = req.user._id;
   Movie.create({ ...req.body, owner: id })
     .then((movie) => {
@@ -26,8 +25,8 @@ module.exports.addMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  const { movieId } = req.params;
-  Movie.findOne({ id: movieId })
+  const { id } = req.params;
+  Movie.findById(id)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError('Нет фильма с таким id');
@@ -37,7 +36,7 @@ module.exports.deleteMovie = (req, res, next) => {
         throw new AccessError('Нет прав для удаления фильма');
       }
 
-      return Movie.findOneAndDelete({ id: movieId })
+      return Movie.findByIdAndRemove(id)
         .then(() => {
           if (!movie) {
             throw new NotFoundError('Нет фильма с таким id');

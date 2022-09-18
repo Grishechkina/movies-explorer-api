@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const centralizedErrorHandler = require('./middlewares/centralizedErrorHandler');
+require('dotenv').config();
 
 const { PORT = 3000, DB_URL, NODE_ENV } = process.env;
 const app = express();
@@ -22,16 +24,6 @@ app.use('/api', routes);
 app.use(errorLogger);
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-  next();
-});
+app.use(centralizedErrorHandler);
 
 app.listen(PORT, () => {});

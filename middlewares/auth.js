@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const BadAuthError = require('../errors/bad-auth-err');
-require('dotenv').config();
 
 module.exports = (req, res, next) => {
   const token = req.cookies.jwt;
