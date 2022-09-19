@@ -38,6 +38,7 @@ module.exports.updateUserProfile = (req, res, next) => {
       }
       if (err.code === 11000) {
         next(new BadRequestError('Такой логин уже существует'));
+        return;
       }
       next(err);
     });
