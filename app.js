@@ -26,9 +26,7 @@ app.use(cors(
     origin: [
       'https://film.o.search.nomoredomains.icu',
       'http://film.o.search.nomoredomains.icu',
-    ],
-    credentials: true,
-    optionsSuccessStatus: 200,
+    ]
   },
 ));
 
