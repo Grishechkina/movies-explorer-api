@@ -37,7 +37,7 @@ module.exports.updateUserProfile = (req, res, next) => {
         return;
       }
       if (err.code === 11000) {
-        next(new BadRequestError('Такой логин уже существует'));
+        next(new ConflictError('Такой email уже существует'));
         return;
       }
       next(err);
@@ -88,7 +88,7 @@ module.exports.login = (req, res, next) => {
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
-          domain: process.env.NODE_ENV === 'production' ? 'film.o.search.nomoredomains.sbs' : 'localhost:3000',
+          domain: 'film.o.search.nomoredomains.icu',
           sameSite: 'None',
           secure: true,
         });
@@ -100,7 +100,7 @@ module.exports.login = (req, res, next) => {
 module.exports.signout = (req, res) => {
   res.clearCookie('jwt', {
     httpOnly: true,
-    domain: process.env.NODE_ENV === 'production' ? 'film.o.search.nomoredomains.sbs' : 'localhost:3000',
+    domain: 'film.o.search.nomoredomains.icu',
     sameSite: 'None',
     secure: true,
   });

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -19,6 +20,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(requestLogger);
+
+app.use(cors(
+  {
+    origin: [
+      'https://film.o.search.nomoredomains.icu',
+      'http://film.o.search.nomoredomains.icu',
+    ],
+    credentials: true,
+    optionsSuccessStatus: 200,
+  },
+));
 
 app.use('/api', routes);
 app.use(errorLogger);
