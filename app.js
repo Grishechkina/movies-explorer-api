@@ -26,6 +26,8 @@ app.use(cors(
     origin: [
       'https://film.o.search.nomoredomains.icu',
       'http://film.o.search.nomoredomains.icu',
+      'https://http://localhost:3000',
+      'http://localhost:3000',
     ],
     credentials: true,
     optionsSuccessStatus: 200,
